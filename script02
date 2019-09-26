@@ -1,0 +1,10 @@
+# Script 02 
+# en Praat 6.0.56
+# Laboratorio de fonética USACH
+######### 2019 #########
+# Selecciona un directorio
+# crea una lista con los wav existentes en ese directorio
+# abre los archivos .wav
+# scale peak
+# submuestrea todos los audios
+# los guarda en el directorio elegido
