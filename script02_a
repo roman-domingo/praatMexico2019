@@ -31,18 +31,61 @@ endif
 directorio$ = chooseDirectory$: "Elije directorio"
 
 # con todos los .wav del directorio crea un objeto String
+# con todos los .TextGrid del directorio crea un objeto String
+
 strings1 = Create Strings as file list: "lista_s", directorio$ + "/*.wav"
 strings2 = Create Strings as file list: "lista_t", directorio$ + "/*.TextGrid"
 
+# identifica número de audios (se supone que es = al número de TextGrid)
+# eventualmente se podría agregar una línea de control "si el n1 es <> n2 entonces mensaje xxx"
+
+numeroDeAudios = Get number of strings
+
+# el siguiente comando se realizará desde "ifile" (= 1) hasta numeroDeAudios
+
+for iAudio to numeroDeAudios
+
+# selecciona string1
+	select strings1
+
+# obtiene el nombre de la primera fila
+	audio$ = Get string... iAudio
+	
+# lee el audio correspondiente al primer nombre
+# y lo pone en el panel de objetos
+
+	audio$ = Read from file... 'directorio$'/'audio$'
+	
+# crea el objeto formant con "valor' definido en el formulario
+	PistaFormantes = To Formant (burg)... 0 5 'valor' 0.025 50
+
+# selecciona la cadena de Textgrids
+	select string2
+	tg$ = Read from file: 'directorio$'/'audio$'
+	
+writeInfoLine: tg$
+
+endfor
 
 
+
+# hecho esto, el ciclo comenzará de nuevo con el próximo audio
+endfor
+
+
+
+
+
+
+
+####################
 
 
 # Selecciona el objeto Sound y crea el objeto Formant 
 sonido$ = selected$ ("Sound")
 textgrid$ = selected$ ("TextGrid")
 select Sound 'sonido$'
-To Formant (burg)... 0 5 'valor' 0.025 50
+
 
 # En el TextGrid, busca el número de marcas, y las etiquetas existentes.
 # En el objeto Formant encuentra los valores para
