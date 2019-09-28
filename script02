@@ -5,6 +5,69 @@
 # Selecciona un directorio
 # crea una lista con los wav existentes en ese directorio
 # abre los archivos .wav
-# scale peak
-# submuestrea todos los audios
-# los guarda en el directorio elegido
+# Este script proporciona la etiqueta y los valores 
+# de F1 y F2 a partir de un TextGrid
+# corregido 2017
+# adaptado para Magíster 2019, mayo 20.
+# modificado para México 2019, septiembre 28
+
+# Presenta el formulario para los datos del informante 
+form Sexo e id del informante 
+	choice sexo 1
+	button f
+	button m
+	real identificador 1
+endform
+
+# Asigna distintos valores dependiendo del sexo del informante
+# para crear el objeto Formant y luego obtener los valores 
+if sexo$ = "m"
+	valor = 5000
+elsif sexo$ = "f"
+	valor = 5500
+endif
+
+# Selecciona el objeto Sound y crea el objeto Formant 
+sonido$ = selected$ ("Sound")
+textgrid$ = selected$ ("TextGrid")
+select Sound 'sonido$'
+To Formant (burg)... 0 5 'valor' 0.025 50
+
+# En el TextGrid, busca el número de marcas, y las etiquetas existentes.
+# En el objeto Formant encuentra los valores para
+# F1, F2, para cada punto 
+
+select TextGrid 'textgrid$'
+ndepunto = Get number of points... 1
+
+# Crea la tabla de datos
+tabla = Create Table with column names: sonido$, ndepunto, "id sexo vocal F1 F2"
+
+for i to ndepunto
+	select TextGrid 'textgrid$'
+	tiempopunto = Get time of point... 1 'i'
+	etiquetapunto$ = Get label of point... 1 'i'
+	# seleccionar objeto formantes 
+	select Formant 'sonido$'
+	f1 = Get value at time... 1 'tiempopunto' Hertz Linear
+	f2 = Get value at time... 2 'tiempopunto' Hertz Linear
+	select tabla 
+	Set string value: i, "vocal", etiquetapunto$
+	Set string value: i, "sexo", sexo$
+	Set numeric value: i, "F1", f1
+	Set numeric value: i, "F2", f2
+	Set numeric value: i, "id", identificador
+endfor
+
+#Selecciona el objeto Formant y lo borra
+select Formant 'sonido$'
+Remove
+
+# Lo siguiente ocurre en el panel de gráficos
+Erase all
+Select outer viewport: 0.5, 6, 0.5, 6
+select tabla
+Scatter plot: "F2", 3000, 300, "F1", 2500,100, "vocal", 12, "yes"
+
+Marks left every: 1, 250, "yes", "yes", "yes"
+Marks bottom every: 1, 250, "yes", "yes", "yes"
