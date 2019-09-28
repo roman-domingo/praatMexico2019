@@ -11,7 +11,7 @@
 #
 # Adicionalmente, se introduce una variable por formulario
 #
-# for Nueva frecuencia de muestro
+# form Nueva frecuencia de muestro
 # 	real nuevaFM 22050
 # endform
 #
