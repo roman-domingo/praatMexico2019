@@ -11,6 +11,7 @@
 # adaptado para Magíster 2019, mayo 20.
 # modificado para México 2019, septiembre 28
 
+writeInfoLine: "nuevos datos"
 # Presenta el formulario para los datos del informante 
 form Sexo e id del informante 
 	choice sexo 1
@@ -48,24 +49,28 @@ for iAudio to numeroDeAudios
 # selecciona string1
 	select strings1
 
-# obtiene el nombre de la primera fila
+# obtiene el nombre de la n... fila
 	audio$ = Get string... iAudio
 	
 # lee el audio correspondiente al primer nombre
 # y lo pone en el panel de objetos
 
-	audio$ = Read from file... 'directorio$'/'audio$'
+	audioI$ = Read from file... 'directorio$'/'audio$'
 	
 # crea el objeto formant con "valor' definido en el formulario
-	PistaFormantes = To Formant (burg)... 0 5 'valor' 0.025 50
+	pistaFormantes = To Formant (burg)... 0 5 'valor' 0.025 50
 
 # selecciona la cadena de Textgrids
-	select string2
-	tg$ = Read from file: 'directorio$'/'audio$'
-	
-writeInfoLine: tg$
 
+	select strings2
+
+	textGrids$ = Get string... iAudio
+
+	tg$ = Read from file... 'directorio$'/'textGrids$'
+	
+appendInfoLine: textGrids$,tab$,audioI$
 endfor
+
 
 
 
