@@ -27,6 +27,17 @@ elsif sexo$ = "f"
 	valor = 5500
 endif
 
+
+directorio$ = chooseDirectory$: "Elije directorio"
+
+# con todos los .wav del directorio crea un objeto String
+strings1 = Create Strings as file list: "lista_s", directorio$ + "/*.wav"
+strings2 = Create Strings as file list: "lista_t", directorio$ + "/*.TextGrid"
+
+
+
+
+
 # Selecciona el objeto Sound y crea el objeto Formant 
 sonido$ = selected$ ("Sound")
 textgrid$ = selected$ ("TextGrid")
