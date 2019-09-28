@@ -1,0 +1,52 @@
+# Script 01
+# en Praat 6.1.03
+# Laboratorio de fonética USACH
+####### ## 2019 #########
+# Selecciona un directorio
+# crea una lista con los wav existentes en ese directorio
+# abre los archivos .wav
+# scale peak
+# submuestrea todos los audios
+# los guarda en el directorio elegido
+#
+# Adicionalmente, se introduce una variable por formulario
+#
+form Nueva frecuencia de muestro
+    real nuevaFM 22050
+endform
+#
+# Seleccion del directorio
+directorio$ = chooseDirectory$: "Elije directorio"
+
+# con todos los .wav del directorio crea un objeto String
+strings1 = Create Strings as file list: "lista_s", directorio$ + "/*.wav"
+
+## Si solo se crea un string, queda seleccionado por defecto. 
+## Si hay más de un string, la línea siguiente es necesaria
+##select strings1
+
+# numeroDeAudios será el número de filas que hay en el string
+# (por lo tanto, en el directorio elegido)
+
+numeroDeAudios = Get number of strings
+
+# el siguiente comando se realizará desde "ifile" (= 1) hasta numeroDeAudios
+
+for iAudio to numeroDeAudios
+
+# selecciona string1
+	select strings1
+
+# obtiene el nombre de la primera fila
+	audio$ = Get string... iAudio
+# lee el audio correspondiente al primer nombre
+# y lo pone en el panel de objetos
+	Read from file... 'directorio$'/'audio$'
+
+# ese objeto está seleccionado por defecto y
+# con él se realizan Scale peak, Resample y Save...
+	Scale peak: 0.99
+	Resample: nuevaFM, 50
+	Save as WAV file... 'directorio$'/'audio$'
+# hecho esto, el ciclo comenzará de nuevo con el próximo audio
+endfor
