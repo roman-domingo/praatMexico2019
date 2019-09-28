@@ -9,6 +9,11 @@
 # submuestrea todos los audios
 # los guarda en el directorio elegido
 #
+# Adicionalmente, se introduce una variable por formulario
+#
+# for Nueva frecuencia de muestro
+# 	real nuevaFM 22050
+# endform
 #
 # Seleccion del directorio
 directorio$ = chooseDirectory$: "Elije directorio"
